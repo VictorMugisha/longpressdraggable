@@ -44,16 +44,23 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.transparent,
               elevation: 8,
               child: Container(
-                width: 100,
-                height: 100,
+                width: 110,
+                height: 110,
                 color: Colors.orange.withValues(alpha: 0.7),
                 child: const Text("Dragging..."),
               ),
             ),
+            // dragAnchorStrategy: (draggable, context, position) {
+            //   final box = context.findRenderObject()! as RenderBox;
+            //   final local = box.globalToLocal(position);
+            //   print('finger in child coords: $local, child size: ${box.size}');
+            //   return local;
+            // },
             childWhenDragging: Opacity(
               opacity: 0.3,
               child: Container(width: 100, height: 100, color: Colors.blue),
             ),
+            // axis: Axis.horizontal,
             child: Container(
               width: 100,
               height: 100,
