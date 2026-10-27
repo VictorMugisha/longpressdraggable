@@ -27,6 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String dropped = "nothing yet";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,41 +36,57 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 15,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Text('last drop: $dropped'),
+          DragTarget<String>(
+            onWillAcceptWithDetails: (details) {
+              debugPrint('TARGET willAccept  data=${details.data}');
+              return true;
+            },
+            onAcceptWithDetails: (details) {
+              debugPrint(
+                'TARGET accept      data=${details.data}  '
+                'offset=${details.offset}',
+              );
+              setState(() => dropped = details.data);
+            },
+            onLeave: (data) => debugPrint('TARGET leave       data=$data'),
+            builder: (context, candidate, rejected) {
+              return Container(
+                width: 200,
+                height: 200,
+                alignment: Alignment.center,
+                color: candidate.isNotEmpty
+                    ? Colors.green
+                    : rejected.isNotEmpty
+                    ? Colors.red
+                    : Colors.grey,
+                child: Text(
+                  'candidate=${candidate.length}  rejected=${rejected.length}',
+                ),
+              );
+            },
+          ),
           LongPressDraggable<String>(
-            data: "Hello World",
-            feedback: Material(
-              color: Colors.transparent,
-              elevation: 8,
-              child: Container(
-                width: 110,
-                height: 110,
-                color: Colors.orange.withValues(alpha: 0.7),
-                child: const Text("Dragging..."),
-              ),
+            data: 'hello',
+            feedback: Container(
+              width: 100,
+              height: 100,
+              color: Colors.orange.withValues(alpha: 0.7),
             ),
-            // dragAnchorStrategy: (draggable, context, position) {
-            //   final box = context.findRenderObject()! as RenderBox;
-            //   final local = box.globalToLocal(position);
-            //   print('finger in child coords: $local, child size: ${box.size}');
-            //   return local;
-            // },
             childWhenDragging: Opacity(
               opacity: 0.3,
               child: Container(width: 100, height: 100, color: Colors.blue),
             ),
-            // axis: Axis.horizontal,
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.blue,
-              child: const Text("Drag me!"),
-            ),
+            onDragStarted: () => debugPrint('DRAGGABLE started'),
+            onDraggableCanceled: (v, o) => debugPrint('DRAGGABLE canceled'),
+            onDragCompleted: () => debugPrint('DRAGGABLE completed'),
+            onDragEnd: (d) =>
+                debugPrint('DRAGGABLE end       accepted=${d.wasAccepted}'),
+            child: Container(width: 100, height: 100, color: Colors.blue),
           ),
-          Container(width: 100, height: 100, color: Colors.green),
         ],
       ),
     );
