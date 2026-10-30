@@ -1,6 +1,6 @@
 # LongPressDraggable
 
-A small Flutter demo that lets you long-press a widget and drag it around a canvas while a floating copy shows live x/y coordinates.
+A small Flutter demo that lets you long-press an image and drag it around a canvas.
 
 ## Run it
 
