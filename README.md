@@ -1,17 +1,18 @@
-# longpressdraggable
+# LongPressDraggable
 
-A new Flutter project.
+A small Flutter demo that lets you long-press a widget and drag it around a canvas while a floating copy shows live x/y coordinates.
 
-## Getting Started
+## Run it
 
-This project is a starting point for a Flutter application.
+```sh
+flutter pub get
+flutter run -d [your emulator id]
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Three attributes on `LongPressDraggable` widget
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- `child`: the static widget/element shown on screen when not dragging (Before the dragging begins).
+- `childWhenDragging`: the placeholder left behind while the `child` widget is being dragged (when not provided, `child` is the default).
+- `feedback`: the floating copy that follows your finger when dragging.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Final UI](screenshot.png)
